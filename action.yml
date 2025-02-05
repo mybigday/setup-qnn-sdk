@@ -8,10 +8,8 @@ inputs:
 outputs:
   qnn-sdk-root:
     description: 'QNN SDK Root'
-    type: string
   snpe-root:
     description: 'SNPE Root'
-    type: string
 
 runs:
   using: "composite"
