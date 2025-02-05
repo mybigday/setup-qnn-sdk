@@ -14,12 +14,19 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Load cache
+      uses: actions/cache@v3
+      with:
+        key: qnn-sdk-${{ inputs.qnn-sdk-version }}
+        path: qairt/${{ inputs.qnn-sdk-version }}
     - if: runner.os == 'windows'
       shell: pwsh
       run: |
-        Invoke-WebRequest -Uri https://bricks-maven-repo.s3.ap-northeast-1.amazonaws.com/qualcomm-ai-v${{ inputs.qnn-sdk-version }}.zip -OutFile qnn-sdk.zip
-        7z x qnn-sdk.zip
-        rm qnn-sdk.zip
+        if (-not (Test-Path qairt)) {
+          Invoke-WebRequest -Uri https://bricks-maven-repo.s3.ap-northeast-1.amazonaws.com/qualcomm-ai-v${{ inputs.qnn-sdk-version }}.zip -OutFile qnn-sdk.zip
+          7z x qnn-sdk.zip
+          rm qnn-sdk.zip
+        }
         & ".\qairt\${{ inputs.qnn-sdk-version }}\bin\envsetup.ps1"
         echo "QNN_SDK_ROOT=$env:QNN_SDK_ROOT" >> $env:GITHUB_ENV
         echo "qnn-sdk-root=$env:QNN_SDK_ROOT" >> $env:GITHUB_OUTPUT
@@ -28,9 +35,11 @@ runs:
     - if: runner.os != 'windows'
       shell: bash
       run: |
-        curl -L https://bricks-maven-repo.s3.ap-northeast-1.amazonaws.com/qualcomm-ai-v${{ inputs.qnn-sdk-version }}.zip -o qnn-sdk.zip
-        unzip qnn-sdk.zip
-        rm qnn-sdk.zip
+        if [ ! -d qairt/${{ inputs.qnn-sdk-version }} ]; then
+          curl -L https://bricks-maven-repo.s3.ap-northeast-1.amazonaws.com/qualcomm-ai-v${{ inputs.qnn-sdk-version }}.zip -o qnn-sdk.zip
+          unzip qnn-sdk.zip
+          rm qnn-sdk.zip
+        fi
         source qairt/${{ inputs.qnn-sdk-version }}/bin/envsetup.sh
         echo "QNN_SDK_ROOT=$QNN_SDK_ROOT" >> $GITHUB_ENV
         echo "qnn-sdk-root=$QNN_SDK_ROOT" >> $GITHUB_OUTPUT
