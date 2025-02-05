@@ -5,6 +5,14 @@ inputs:
     type: string
     default: '2.31.0.250130'
 
+outputs:
+  qnn-sdk-root:
+    description: 'QNN SDK Root'
+    type: string
+  snpe-root:
+    description: 'SNPE Root'
+    type: string
+
 runs:
   using: "composite"
   steps:
@@ -16,6 +24,9 @@ runs:
         rm qnn-sdk.zip
         & ".\qairt\${{ inputs.qnn-sdk-version }}\bin\envsetup.ps1"
         echo "QNN_SDK_ROOT=$env:QNN_SDK_ROOT" >> $env:GITHUB_ENV
+        echo "qnn-sdk-root=$env:QNN_SDK_ROOT" >> $env:GITHUB_OUTPUT
+        echo "SNPE_ROOT=$env:SNPE_ROOT" >> $env:GITHUB_ENV
+        echo "snpe-root=$env:SNPE_ROOT" >> $env:GITHUB_OUTPUT
     - if: runner.os != 'windows'
       shell: bash
       run: |
@@ -23,4 +34,7 @@ runs:
         unzip qnn-sdk.zip
         rm qnn-sdk.zip
         source qairt/${{ inputs.qnn-sdk-version }}/bin/envsetup.sh
-        echo "QNN_SDK_ROOT=$QNN_SDK_ROOT" >> $env:GITHUB_ENV
+        echo "QNN_SDK_ROOT=$QNN_SDK_ROOT" >> $GITHUB_ENV
+        echo "qnn-sdk-root=$QNN_SDK_ROOT" >> $GITHUB_OUTPUT
+        echo "SNPE_ROOT=$SNPE_ROOT" >> $GITHUB_ENV
+        echo "snpe-root=$SNPE_ROOT" >> $GITHUB_OUTPUT
