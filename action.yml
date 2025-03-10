@@ -3,7 +3,7 @@ inputs:
     description: 'QNN SDK Version'
     required: true
     type: string
-    default: '2.31.0.250130'
+    default: '2.32.0.250228'
 
 outputs:
   qnn-sdk-root:
