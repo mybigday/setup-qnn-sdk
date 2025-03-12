@@ -23,7 +23,7 @@ runs:
       shell: pwsh
       run: |
         if (-not (Test-Path qairt)) {
-          Invoke-WebRequest -Uri https://softwarecenter.qualcomm.com/api/download/software/qualcomm_neural_processing_sdk/v${{ inputs.qnn-sdk-version }}.zip -OutFile qnn-sdk.zip
+          Invoke-WebRequest -Uri https://apigwx-aws.qualcomm.com/qsc/public/v1/api/download/software/sdks/Qualcomm_AI_Runtime_Community/All/${{ inputs.qnn-sdk-version }}/v${{ inputs.qnn-sdk-version }}.zip -OutFile qnn-sdk.zip
           7z x qnn-sdk.zip
           rm qnn-sdk.zip
         }
@@ -36,7 +36,7 @@ runs:
       shell: bash
       run: |
         if [ ! -d qairt/${{ inputs.qnn-sdk-version }} ]; then
-          curl -L https://softwarecenter.qualcomm.com/api/download/software/qualcomm_neural_processing_sdk/v${{ inputs.qnn-sdk-version }}.zip -o qnn-sdk.zip
+          curl -L https://apigwx-aws.qualcomm.com/qsc/public/v1/api/download/software/sdks/Qualcomm_AI_Runtime_Community/All/${{ inputs.qnn-sdk-version }}/v${{ inputs.qnn-sdk-version }}.zip -o qnn-sdk.zip
           unzip qnn-sdk.zip
           rm qnn-sdk.zip
         fi
