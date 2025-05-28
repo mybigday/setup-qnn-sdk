@@ -1,3 +1,5 @@
+name: Setup QNN SDK
+
 inputs:
   qnn-sdk-version:
     description: 'QNN SDK Version'
