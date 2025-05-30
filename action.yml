@@ -1,4 +1,7 @@
 name: Setup QNN SDK
+description: Download and setup Qualcomm AI Engine Direct SDK
+icon: arrow-down-circle
+color: red
 
 inputs:
   qnn-sdk-version:
